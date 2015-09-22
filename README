@@ -1,0 +1,15 @@
+
+Generare gli eseguibili con il comando make. Verranno generati gli eseguibili sia per p1test
+che per p2test.
+
+Questa implementazione di sistema operativo per uARM non può contenere più di MAXPROC processi
+attivi per volta; di conseguenza, i pid per suddetti processi vengono mantenuti con una pidmap
+che gestisce quelli disponibili e quelli già occupati.
+Il processo Idle ha pid 1.
+
+Lo scheduler è di tipo round robin, con code di priorità ma senza preemption.
+
+Nella directory bug_report è presente la descrizione di una possibile race condition su p2test.
+
+Questa implementazione è liberamente ispirata a quella del team Naughty Doge, reperibile su github;
+link: https://github.com/naughtydoge

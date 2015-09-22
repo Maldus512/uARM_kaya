@@ -1,0 +1,25 @@
+BUG REPORT:
+Riscontrata la presenza di una race condition in p2test, riguardo al controllo sul pid del processo p3.
+Nella directory bug_report si trova una versione del modulo system.c per cui viene stampato il messaggio di
+errore sul pid. Rispetto al modulo effettivamente utilizzato, il gestore delle system call restitusce il controllo
+al processo corrente ( se ancora attivo ) direttamente con una istruzione di LDST(), mentre il primo chiama
+lo scheduler in ogni situazione. A livello di funzionalità non c'è alcuna differenza in quanto lo scheduler non è
+preemptive, quindi se il processo è ancora attivo viene comunque fatto ripartire.
+L'implementazione del codice in bug_report è più efficiente, ma provoca la stampa di un messaggio di errore
+("error: p3 pid different from getPid output\n").
+La stampa dell'errore avviene o meno a seconda dei tempi: aggiungendo istruzioni a p2test o ai vari moduli
+smette di comparire (es: un for inutile all'inizio di test() ). Segue una possibile descrizione del problema.
+
+Il problema comincia con l'istruzione di p2test con cui si crea p3, salvando il pid nella variabile p3pid. 
+La funzione che crea il processo viene eseguita con successo.
+Il gestore delle system call restituisce immediatamente il controllo al processo corrente ( che sarebbe p1 )
+ se la system call non lo ha in qualche modo bloccato, con l'istruzione LDST(&current_process->p_s). 
+Tuttavia il controllo va al figlio appena creato di p1, p3, prima che il valore di ritorno della system call
+ sia effettivamente posto in p3pid, o almeno questa è la mia deduzione. Dopo la system call il controllo torna 
+a p1 ma gli viene immediatamente tolto da un interrupt ( per la fine del suo time slice, sopraggiunta probabilmente
+ mentre la system call veniva eseguita ), forse interrompendo a metà l'istruzione che porrebbe il pid corretto
+ in p3pid, che quindi rimane 0. L'istruzione viene ripresa correttamente al risveglio di p1, ma è troppo tardi.
+
+Il file p2test.0.1_fixed.c, sempre nella directory bug_report, è modificato con una possibile soluzione:
+viene aggiunto un semaforo (p3pidwait) su cui p3 si blocca con una P(), venendo sbloccato da p1 dopo aver completato
+l'istruzione che mette il valore corretto in p3pid 
