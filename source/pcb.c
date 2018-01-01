@@ -1,8 +1,8 @@
-#include "/usr/include/uarm/uARMconst.h"
-#include "/usr/include/uarm/uARMtypes.h"
-#include "includes/libuarm.h"
-#include "includes/listx.h"
-#include "includes/pcb.h"
+#include "uARMconst.h"
+#include "uARMtypes.h"
+#include "libuarm.h"
+#include "listx.h"
+#include "pcb.h"
 
 /*  Copyright (C) 2015  Carlo Stomeo, Stefano Mazza, Alessandro Zini, Mattia Maldini
 

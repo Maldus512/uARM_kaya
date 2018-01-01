@@ -14,13 +14,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
-#include "/usr/include/uarm/uARMconst.h"
-#include "/usr/include/uarm/uARMtypes.h"
-#include "includes/libuarm.h"
-#include "includes/listx.h"
+#include "uARMconst.h"
+#include "uARMtypes.h"
+#include "libuarm.h"
+#include "listx.h"
 
-#include "includes/pcb.h"
-#include "includes/asl.h"
+#include "pcb.h"
+#include "asl.h"
 
 
 
