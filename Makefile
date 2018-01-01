@@ -1,10 +1,10 @@
 ARMGNU ?= arm-none-eabi
 
 FLAGS := -march=armv8-a -mfpu=neon-vfpv4 -mtune=cortex-a8
-CFLAGS := -Wall -pedantic -ffreestanding $(FLAGS)
+CFLAGS := -Wall -ffreestanding $(FLAGS)
 
 # The intermediate directory for compiled object files.
-BUILD = .
+BUILD = 
 # The directory in which source files are stored.
 SOURCE = source/
 # The directory in which header files are stored.
@@ -26,4 +26,4 @@ $(BUILD)%.o: $(SOURCE)%.c $(BUILD)
 	$(ARMGNU)-gcc $(CFLAGS) -c -I $(INCLUDE1) -I $(INCLUDE2) -g $< -o $@
 
 clean:
-	rm $(TARGET) $(BUILD)/*.o
+	rm $(TARGET) $(BUILD)*.o
